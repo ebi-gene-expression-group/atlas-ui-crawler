@@ -27,14 +27,14 @@ class BrowseExperiments(unittest.TestCase):
         driver = self.driver
         driver.get(self.url_to_test)
 
-        driver.find_element_by_name('experiments-table_length').send_keys('25')
-        # driver.find_element_by_name('experiments-table_length').send_keys('All')
+        # driver.find_element_by_name('experiments-table_length').send_keys('25')
+        driver.find_element_by_name('experiments-table_length').send_keys('All')
 
         experiment_links = WebDriverWait(driver, 10).until(
             expected_conditions.presence_of_all_elements_located((By.CSS_SELECTOR, "a[title='View in Expression Atlas']"))
         )
 
-        self.assertGreaterEqual(len(experiment_links), 25)
+        self.assertGreaterEqual(len(experiment_links), 3000)
 
         for url in self.get_urls_from_html_elements(experiment_links):
             with self.subTest(url=url):
