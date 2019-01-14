@@ -1,6 +1,7 @@
 language: python
 python:
   - "3.6"
-# command to run tests
+addons:
+  chrome: stable
 script:
   - python -m unittest discover -v tests/
