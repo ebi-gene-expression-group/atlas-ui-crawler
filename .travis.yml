@@ -1,7 +1,18 @@
+dist: trusty
+sudo: required
+
 language: python
 python:
   - "3.6"
+
 addons:
+  apt:
+    packages:
+      - chromium-chromedriver
   chrome: stable
+
+before_script:
+  - "ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver"
+
 script:
   - python -m unittest discover -v tests/
