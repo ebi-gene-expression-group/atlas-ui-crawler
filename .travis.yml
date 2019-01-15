@@ -14,14 +14,8 @@ addons:
 before_script:
   - "ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver"
 
-jobs:
-  include:
-  - stage: "Testing"
-    name: "www-test"
-    env:
-      - ATLAS_URL=https://www-test.ebi.ac.uk/gxa
-    script: python -m unittest discover -v tests/
-  - name: "wwwdev"
-    env:
-    - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa
-    script: python -m unittest discover -v tests/
+env:
+  - ATLAS_URL=https://www-test.ebi.ac.uk/gxa
+  - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa
+
+script: python -m unittest discover -v tests/
