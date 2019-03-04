@@ -15,7 +15,7 @@ before_script:
   - "ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver"
 
 env:
-  - ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no
-  - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no
+  - ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
+  - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
 
-script: python -m unittest discover -v tests/
+script: python -m unittest discover -v tests/$TEST_SUITE
