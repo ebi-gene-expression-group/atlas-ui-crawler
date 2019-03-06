@@ -1,21 +1,22 @@
 dist: trusty
 sudo: required
-
 language: python
 python:
-  - "3.6"
-
+- '3.6'
 addons:
   apt:
     packages:
-      - chromium-chromedriver
+    - chromium-chromedriver
   chrome: stable
-
 before_script:
-  - "ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver"
-
+- ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 env:
-  - ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
-  - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
-
+- ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
+- ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
 script: python -m unittest discover -v tests/$TEST_SUITE
+notifications:
+  slack:
+    secure: Av/Ocze9P3j2hR56iqRxt54+RloNz/+aiLy9Kok0wBxUyRWRdn1tNl8ZLTw7eIO4eH+GGqTf4h3Aj1+320jj+sGf3XkGs4XbTq2XBA/EAk2hvHob0z3NG2vHsubh8UVagzLfYv6T1giMNfeqj+kEpaSxcxubTK1R5kLcjllmIyg1PrfylM7PmmCRRUQjNFG8LJkKSXU38Y5GWgDN+MMeu9KYJp+H660/Olw3XL7IuvMbM2iM1jiDiyrs9l/hzJoMbV1F2u6xIwIEBdP8m7YAzqOPbEW1fIOAojYRSfTZKFYVZUF2XhK0qfM5bwN7OLsvptRC8lCS0QHRJ8Iife+OGANdcYL4FDpqUlqUaay9n5yACjLnW1KBSwVo9WbiLdi03FT8T+X7gXsQmw9eQqiJpIjivi/zP8Xce/Ic03a9znD/UbWDoU69sEUwQ8hhgn7FwyZBYi6lgMF/GLa7SSiUws4ZQ0r8uI6irBUZDtdPx7a11adTTGl5j0eWZjEGZZf5RvbM3c3QLQk4jP1a9ptNVv4KiX6tXXZndRsZwMtFGDb3+psH/jwjO4Wpzs+mA4FLQNmZvlKbOWjtshgHKXl/kLTjE26tUE2UV+vXO9ZIbOeNbOxtQIIFidXuWIgEbI7CJS+vsbpuFuIeiXa4/rRT/EYX7A0qo/4csiFJjQyLK98=
+    on_success: change # default: always
+    on_failure: change # default: always
+    on_pull_requests: false
