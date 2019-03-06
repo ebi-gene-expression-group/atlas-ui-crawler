@@ -1,6 +1,5 @@
 import os
 import unittest
-import requests
 
 from tests.utils.selenium_utils import get_urls_from_html_elements
 from tests.utils.http_utils import get_request_status_code
@@ -12,7 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
 class BrowseExperiments(unittest.TestCase):
-
     test_all: bool
     url_to_test: str
 
@@ -32,7 +30,7 @@ class BrowseExperiments(unittest.TestCase):
 
         self.url_to_test = base_url + '/experiments'
 
-    def test_experiments_return_200(self):
+    def test_experiment_links_in_table(self):
         driver = self.driver
         driver.get(self.url_to_test)
 
