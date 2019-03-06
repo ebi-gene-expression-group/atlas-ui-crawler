@@ -72,8 +72,9 @@ class HelpPages(unittest.TestCase):
         for url in get_urls_from_html_elements(links):
             # JSTOR detects the requests are not coming from a human...
             if "jstor.org" not in url:
-                print('checking url', url)
-                self.assertEqual(get_request_status_code(url), 200)
+                with self.subTest(url=url):
+                    print('checking url', url)
+                    self.assertEqual(get_request_status_code(url), 200)
 
     def tearDown(self):
         self.driver.close()
