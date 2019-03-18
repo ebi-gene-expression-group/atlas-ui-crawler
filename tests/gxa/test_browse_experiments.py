@@ -1,7 +1,8 @@
 import os
 import unittest
 
-import requests
+from tests.utils.selenium_utils import get_urls_from_html_elements
+from tests.utils.http_utils import get_request_status_code
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,7 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
 class BrowseExperiments(unittest.TestCase):
-
     test_all: bool
     url_to_test: str
 
@@ -30,7 +30,7 @@ class BrowseExperiments(unittest.TestCase):
 
         self.url_to_test = base_url + '/experiments'
 
-    def test_experiments_return_200(self):
+    def test_experiment_links_in_table(self):
         driver = self.driver
         driver.get(self.url_to_test)
 
@@ -48,24 +48,15 @@ class BrowseExperiments(unittest.TestCase):
         else:
             self.assertGreaterEqual(len(experiment_links), 25)
 
-        for url in self.get_urls_from_html_elements(experiment_links):
+        for url in get_urls_from_html_elements(experiment_links):
             with self.subTest(url=url):
                 print('checking url', url)
-                self.check_status_code_is_200(url)
 
-    def get_url_from_html_element(self, html_element):
-        return html_element.get_attribute('href')
-
-    def get_urls_from_html_elements(self, html_elements):
-        return [self.get_url_from_html_element(element) for element in html_elements]
-
-    def check_status_code_is_200(self, url):
-        response = requests.head(url)
-        self.assertEqual(response.status_code, 200)
+                self.assertEqual(get_request_status_code(url), 200)
 
     def tearDown(self):
         self.driver.close()
 
+
 if __name__ == "__main__":
     unittest.main()
-

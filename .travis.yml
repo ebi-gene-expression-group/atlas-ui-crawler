@@ -1,21 +1,26 @@
 dist: trusty
 sudo: required
-
 language: python
 python:
-  - "3.6"
-
+- '3.6'
 addons:
   apt:
     packages:
-      - chromium-chromedriver
+    - chromium-chromedriver
   chrome: stable
-
 before_script:
-  - "ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver"
-
+- ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 env:
-  - ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no
-  - ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no
-
-script: python -m unittest discover -v tests/
+- ATLAS_URL=https://www-test.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
+- ATLAS_URL=https://wwwdev.ebi.ac.uk/gxa TEST_ALL_EXPERIMENTS=no TEST_SUITE=gxa
+script: python -m unittest discover -v tests/$TEST_SUITE
+notifications:
+  slack:
+    template:
+      - "Travis says *'%{message}'* for the UI tests in the (<%{compare_url}|%{branch}>) branch."
+      - "See the build logs for more details: <%{build_url}|#%{build_number}>"
+    rooms:
+      secure: "Q7GzEwhXbCByNFixKQ/BospNt4Bx7EbA/6XQ5YB/My1HUro77GPFEuNv9y8wa1Sc7asuzUEIoV6X70LVySZkSGJFgLlSDDuOuH420HLaWAuYaVK1gz9lg59RYU0UGE4T0QVbI1GYpA9ZXkfbmNLxpaQRl3piEQL6Op8vwIpen1P5c6MiDqyQsD+oIhN+hOs4EemZh0JSewa3mUK2FDEC3Us9E+UsoolPde676kWMb/NU0FtHsfTbF4si/uI3whhGhZkj3t7yzQYDtF4JS0tcyvPkO2vvJ98CP/SsXIwWKZG3PaPwOMnfl+r+6oVtEwjThBPM6DlYXV2A8EsQFKd4gb8fwuLgvOjiz7c6snqbAThp9xsoHxZM2mQHN1m+QQvhsFijYUkeS4AOA53DAsbsbRpha2TyGuYBfsJPgH/NTFfCe1Bn+AdjA7cMV/skn+Db6eCoCg0j+QFA3eIOIXwUAuogvC0F6++SdiLBIkIlgZ6bFbxFQDZ+YuklN+AMkd1fxtFxmdfh0KoV0qum1eT1239j2hVJ24jalFi/4UeZ8dNf4C4EpvmjkRjbI+WuY70uu9NCjZKbF17qo9R2R9XhQmAodkP+esZ3/vf74rRxqLC4845A4CGHQEBYCySe8aFm4FHfiSc1L7DSVh5U6F9VlDjtsn5XSleukKVkA0q+ZzU="
+    on_success: change
+    on_failure: change
+    on_pull_requests: false
